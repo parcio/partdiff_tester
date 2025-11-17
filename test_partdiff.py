@@ -34,11 +34,17 @@ def check_partdiff_output(
         reference_output (str): The output of the reference implementation
         mask (re.Pattern): The output mask.
     """
+    m_expected = mask.match(reference_output)
+    assert m_expected is not None, (
+        "Reference Output does not match output mask. "
+        "This means that something is wrong with partdiff_tester."
+    )
     m_actual = mask.match(actual_output)
     assert m_actual is not None, (actual_output,)
-    m_expected = mask.match(reference_output)
-    assert m_expected is not None, (reference_output,)
-    assert len(m_expected.groups()) == len(m_actual.groups())
+    assert len(m_expected.groups()) == len(m_actual.groups()), (
+        "Length of capture groups does not match. "
+        "This means that something is wrong with partdiff_tester."
+    )
     for capture_expected, capture_actual in zip(m_expected.groups(), m_actual.groups()):
         assert capture_expected == capture_actual
 
@@ -107,4 +113,8 @@ def test_partdiff_parametrized(
                     OUTPUT_MASKS_WITH_EXTRA_ITER[strictness],
                 )
                 return
-    check_partdiff_output(actual_output, reference_output, OUTPUT_MASKS[strictness])
+    check_partdiff_output(
+        actual_output,
+        reference_output,
+        OUTPUT_MASKS[strictness],
+    )
