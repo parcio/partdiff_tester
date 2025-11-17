@@ -62,9 +62,10 @@ def test_partdiff_parametrized(
     reference_source = pytestconfig.getoption("reference_source")
     cwd = pytestconfig.getoption("cwd")
     allow_extra_iterations = pytestconfig.getoption("allow_extra_iterations")
+    timeout = pytestconfig.getoption("timeout")
 
     actual_output = util.get_actual_output(
-        partdiff_params, partdiff_executable, use_valgrind, cwd
+        partdiff_params, partdiff_executable, use_valgrind, cwd, timeout
     )
     reference_output = util.get_reference_output(
         partdiff_params, reference_output_data, reference_source

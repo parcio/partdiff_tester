@@ -234,6 +234,27 @@ def shuffle_type(value: str) -> tuple[ShuffleType, int | None]:
     return (ShuffleType.SHUFFLE_EXPL_SEED, int(value))
 
 
+def timeout(value: str) -> float | None:
+    """Parse a timeout value from a str.
+
+    Args:
+        value (str): The value to parse.
+
+    Raises:
+        ValueError: When the value cannot be parsed or is not a non-negative
+          float.
+
+    Returns:
+        float | None: The parsed timeout, or None if 0 was passed.
+    """
+    parsed_value = float(value)
+    if parsed_value < 0:
+        raise ValueError("Timeout must be positive.")
+    if parsed_value == 0.0:
+        return None
+    return parsed_value
+
+
 def pytest_addoption(parser: pytest.Parser) -> None:
     """
     See https://docs.pytest.org/en/7.1.x/reference/reference.html#pytest.hookspec.pytest_addoption
@@ -328,6 +349,13 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         metavar="n",
         type=extra_iterations,
         default=0,
+    )
+    custom_options.addoption(
+        "--timeout",
+        help="Stop EXECUTABLE after n seconds (can be float). Zero means no timeout.",
+        metavar="n",
+        type=timeout,
+        default=None,
     )
 
 

@@ -82,9 +82,10 @@ Custom options for test_partdiff:
                         (default: $PWD).
   --shuffle=[SEED]      Shuffle the test cases.
   --allow-extra-iterations=n
-                        For term=prec, allow more iterations than the (serial)
+                        For term=acc, allow more iterations than the (serial)
                         reference implementation would do (0 == disallow; n ==
                         allow n more; -1 == unlimited)
+  --timeout=n           Stop EXECUTABLE after n seconds (can be float).
 ```
 
 The custom options are explained below.
@@ -225,3 +226,7 @@ Allowed values for this parameter are:
 
 > [!IMPORTANT]
 > Since `partdiff_tester` probably needs to execute the reference implementation in the described scenario, it is best to always pass `--reference-source=auto` alongside this parameter. Otherwise, the tests will likely fail.
+
+### `timeout`
+
+A timeout in seconds for `EXECUTABLE`. Zero means no timeout.

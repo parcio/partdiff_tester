@@ -230,6 +230,7 @@ def get_actual_output(
     partdiff_executable: list[str],
     use_valgrind: bool,
     cwd: Path | None,
+    timeout: float | None,
 ) -> str:
     """Get the actual output for a parameter combination.
 
@@ -238,6 +239,7 @@ def get_actual_output(
         partdiff_executable (list[str]): The executable to run.
         use_valgrind (bool): Wether valgrind shall be used.
         cwd (Path | None): The working directory of the executable.
+        timeout (float | None): The timeout in seconds, or None for no timeout.
 
     Returns:
         str: The output of the executable.
@@ -245,7 +247,9 @@ def get_actual_output(
     command_line = partdiff_executable + list(partdiff_params)
     if use_valgrind:
         command_line = ["valgrind", "--leak-check=full"] + command_line
-    return subprocess.check_output(command_line, cwd=cwd).decode("utf-8")
+    return subprocess.check_output(command_line, cwd=cwd, timeout=timeout).decode(
+        "utf-8"
+    )
 
 
 def check_executable_exists(executable: list[str], cwd: Path | None) -> None:
