@@ -1,6 +1,6 @@
 # partdiff_tester
 
-This repository contains a testing script for `partdiff` based on `pytest`.
+This repository contains a testing script for [`partdiff`](https://github.com/parcio/partdiff.git) based on `pytest`.
 
 ## Dependencies
 
