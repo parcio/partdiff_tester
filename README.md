@@ -122,10 +122,137 @@ Use `--strictness` to control which parts of the output are checked:
 | Strictness level | What is checked? |
 |-|-|
 | 0 | Only the matrix |
-| 1 | Matrix and residuum (right-hand-side) |
-| 2 | Matrix, right-hand-side of {interlines, number of iterations, residuum} |
-| 3 | Matrix, right-hand-side of {calculation method, interlines, pertubation function, number of iterations, residuum}, left-hand-side of {calculation time, memory usage, calculation method, interlines, pertubation function, number of iterations, residuum} |
+| 1 | Matrix and right-hand-side of residuum |
+| 2 | Matrix, right-hand-side of {interlines, number of iterations, residuum}, all left-hand-sides |
+| 3 | Matrix, all right-hand-sides (except for calculation time and memory usage), all left-hand-sides |
 | 4 | Full char-by-char diff (except for calculation time and memory usage) |
+
+See the code blocks below to get a graphical overview over what is checked exactly (ignore the backticks while reading)
+
+<details><summary>strictness=0</summary>
+
+```markdown
+ Calculation time:       0.026148 s
+ Memory usage:           9.986588 MiB
+ Calculation method:     Jacobi
+ Interlines:             100
+ Perturbation function:  f(x,y) = 0
+ Termination:            Number of iterations
+ Number of iterations:   100
+ Residuum:               3.544251e-03
+
+ Matrix:
+ `1.0000 0.8750 0.7500 0.6250 0.5000 0.3750 0.2500 0.1250 0.0000`
+ `0.8750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.1250`
+ `0.7500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.2500`
+ `0.6250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3750`
+ `0.5000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.5000`
+ `0.3750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.6250`
+ `0.2500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.7500`
+ `0.1250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.8750`
+ `0.0000 0.1250 0.2500 0.3750 0.5000 0.6250 0.7500 0.8750 1.0000`
+```
+</details>
+
+<details><summary>strictness=1</summary>
+
+```markdown
+ Calculation time:       0.026148 s
+ Memory usage:           9.986588 MiB
+ Calculation method:     Jacobi
+ Interlines:             100
+ Perturbation function:  f(x,y) = 0
+ Termination:            Number of iterations
+ Number of iterations:   100
+ Residuum:              `3.544251e-03`
+
+ Matrix:
+ `1.0000 0.8750 0.7500 0.6250 0.5000 0.3750 0.2500 0.1250 0.0000`
+ `0.8750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.1250`
+ `0.7500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.2500`
+ `0.6250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3750`
+ `0.5000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.5000`
+ `0.3750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.6250`
+ `0.2500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.7500`
+ `0.1250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.8750`
+ `0.0000 0.1250 0.2500 0.3750 0.5000 0.6250 0.7500 0.8750 1.0000`
+```
+</details>
+
+<details><summary>strictness=2</summary>
+
+```markdown
+`Calculation time:`      0.026148 s
+`Memory usage:`          9.986588 MiB
+`Calculation method:`    Jacobi
+`Interlines:`           `100`
+`Perturbation function:` f(x,y) = 0
+`Termination:`           Number of iterations
+`Number of iterations:` `100`
+`Residuum:`             `3.544251e-03`
+
+ Matrix:
+ `1.0000 0.8750 0.7500 0.6250 0.5000 0.3750 0.2500 0.1250 0.0000`
+ `0.8750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.1250`
+ `0.7500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.2500`
+ `0.6250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3750`
+ `0.5000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.5000`
+ `0.3750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.6250`
+ `0.2500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.7500`
+ `0.1250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.8750`
+ `0.0000 0.1250 0.2500 0.3750 0.5000 0.6250 0.7500 0.8750 1.0000`
+```
+</details>
+
+<details><summary>strictness=3</summary>
+
+```markdown
+`Calculation time:`      0.026148 s
+`Memory usage:`          9.986588 MiB
+`Calculation method:`   `Jacobi`
+`Interlines:`           `100`
+`Perturbation function:``f(x,y) = 0`
+`Termination:`          `Number of iterations`
+`Number of iterations:` `100`
+`Residuum:`             `3.544251e-03`
+
+`Matrix:`
+ `1.0000 0.8750 0.7500 0.6250 0.5000 0.3750 0.2500 0.1250 0.0000`
+ `0.8750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.1250`
+ `0.7500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.2500`
+ `0.6250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3750`
+ `0.5000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.5000`
+ `0.3750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.6250`
+ `0.2500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.7500`
+ `0.1250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.8750`
+ `0.0000 0.1250 0.2500 0.3750 0.5000 0.6250 0.7500 0.8750 1.0000`
+```
+</details>
+
+<details><summary>strictness=4</summary>
+
+```markdown
+`Calculation time:      `0.026148 s
+`Memory usage:`         `9.986588 MiB
+`Calculation method:     Jacobi`
+`Interlines:             100`
+`Perturbation function:  f(x,y) = 0`
+`Termination:            Number of iterations`
+`Number of iterations:   100`
+`Residuum:               3.544251e-03`
+
+`Matrix:`
+ `1.0000 0.8750 0.7500 0.6250 0.5000 0.3750 0.2500 0.1250 0.0000`
+ `0.8750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.1250`
+ `0.7500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.2500`
+ `0.6250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3750`
+ `0.5000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.5000`
+ `0.3750 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.6250`
+ `0.2500 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.7500`
+ `0.1250 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.8750`
+ `0.0000 0.1250 0.2500 0.3750 0.5000 0.6250 0.7500 0.8750 1.0000`
+```
+</details>
 
 ## `valgrind`
 
