@@ -59,6 +59,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Init submodules
+      run: git submodule update --init --recursive
+      shell: bash
+      working-directory: $GITHUB_ACTION_PATH
+
     - name: Install uv
       uses: astral-sh/setup-uv@v6
       with:
