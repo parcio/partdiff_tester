@@ -1,0 +1,3 @@
+[submodule "reference_implementation"]
+	path = reference_implementation
+	url = https://github.com/parcio/partdiff.git
