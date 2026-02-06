@@ -77,36 +77,36 @@ runs:
       shell: bash
       run: |
         set -e
+        
         cd "$GITHUB_ACTION_PATH"
-        ARGS="--executable='${{ inputs.executable }}' \
-              --strictness=${{ inputs.strictness }} \
-              --max-num-tests=${{ inputs.max_num_tests }} \
-              --reference-source=${{ inputs.reference_source }} \
-              --num-threads=${{ inputs.num_threads }} \
-              --allow-extra-iterations=${{ inputs.allow_extra_iterations }} \
-              --cwd='${{ inputs.cwd }}'"
+
+        ARGS=(
+          --executable "${{ inputs.executable }}"
+          --strictness "${{ inputs.strictness }}"
+          --max-num-tests "${{ inputs.max_num_tests }}"
+          --reference-source "${{ inputs.reference_source }}"
+          --num-threads "${{ inputs.num_threads }}"
+          --allow-extra-iterations "${{ inputs.allow_extra_iterations }}"
+          --cwd "${{ inputs.cwd }}"
+        )
 
         if [ "${{ inputs.valgrind }}" = "true" ]; then
-          ARGS="$ARGS --valgrind"
+          ARGS+=(--valgrind)
         fi
 
-        FILTERS='${{ inputs.filter }}'
-
-        if [ "$FILTERS" != "[]" ]; then
-          for f in $(echo "$FILTERS" | jq -r '.[]'); do
-            ARGS="$ARGS --filter='$f'"
-          done
-        fi
+        for f in $(echo '${{ inputs.filter }}' | jq -r '.[]'); do
+          ARGS+=(--filter "$f")
+        done
 
         if [ -n "${{ inputs.shuffle }}" ]; then
-          ARGS="$ARGS --shuffle='${{ inputs.shuffle }}'"
+          ARGS+=(--shuffle "${{ inputs.shuffle }}")
         fi
 
         if [ -n "${{ inputs.timeout }}" ]; then
-          ARGS="$ARGS --timeout=${{ inputs.timeout }}"
+          ARGS+=(--timeout "${{ inputs.timeout }}")
         fi
 
         echo "Running partdiff_tester with args:"
-        echo "$ARGS"
-
-        uv run pytest -n auto --verbose $ARGS
+        echo "${ARGS[@]}"
+        
+        uv run pytest -n auto --verbose "${ARGS[@]}"
