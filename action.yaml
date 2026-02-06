@@ -81,7 +81,7 @@ runs:
         cd "$GITHUB_ACTION_PATH"
 
         if [[ ! "${{ inputs.cwd }}" = /* ]]; then
-          ARGS_CWD="$GITHUB_WORKSPACE/${{ inputs.cwd }}"
+          ARGS_CWD="$(realpath -m "$GITHUB_WORKSPACE/${{ inputs.cwd }}")"
         else
           ARGS_CWD="${{ inputs.cwd }}"
         fi
