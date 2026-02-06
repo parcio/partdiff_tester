@@ -39,7 +39,7 @@ inputs:
   cwd:
     description: "Working directory for executable"
     required: false
-    default: "."
+    default: "$GITHUB_WORKSPACE"
 
   shuffle:
     description: "Shuffle test cases (empty = no shuffle, value = seed)"
@@ -77,7 +77,7 @@ runs:
       shell: bash
       run: |
         set -e
-
+        cd "$GITHUB_ACTION_PATH"
         ARGS="--executable='${{ inputs.executable }}' \
               --strictness=${{ inputs.strictness }} \
               --max-num-tests=${{ inputs.max_num_tests }} \
