@@ -32,9 +32,9 @@ inputs:
     default: "1"
 
   filter:
-    description: "Array of filters, each passed as --filter"
+    description: "Newline-separated list of filters, each is passed as --filter=...."
     required: false
-    default: "[]"
+    default: ""
 
   cwd:
     description: "Working directory for executable"
@@ -100,9 +100,10 @@ runs:
           ARGS+=(--valgrind)
         fi
 
-        for f in $(echo '${{ inputs.filter }}' | jq -r '.[]'); do
+        while IFS= read -r f; do
+          [[ -z "$f" ]] && continue
           ARGS+=(--filter="$f")
-        done
+        done <<< "${{ inputs.filter }}"
 
         if [ -n "${{ inputs.shuffle }}" ]; then
           ARGS+=(--shuffle="${{ inputs.shuffle }}")
