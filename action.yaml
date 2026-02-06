@@ -80,6 +80,12 @@ runs:
         
         cd "$GITHUB_ACTION_PATH"
 
+        if [[ ! "${{ inputs.cwd }}" = /* ]]; then
+          ARGS_CWD="$GITHUB_WORKSPACE/${{ inputs.cwd }}"
+        else
+          ARGS_CWD="${{ inputs.cwd }}"
+        fi
+
         ARGS=(
           --executable="${{ inputs.executable }}"
           --strictness="${{ inputs.strictness }}"
@@ -87,7 +93,7 @@ runs:
           --reference-source="${{ inputs.reference_source }}"
           --num-threads="${{ inputs.num_threads }}"
           --allow-extra-iterations="${{ inputs.allow_extra_iterations }}"
-          --cwd="${{ inputs.cwd }}"
+          --cwd="$ARGS_CWD"
         )
 
         if [ "${{ inputs.valgrind }}" = "true" ]; then
