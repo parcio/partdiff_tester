@@ -16,18 +16,24 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
 
 ## How it works
 
-`partdiff_tester` is based on `pytest` which is a testing framework for Python.
-`pytest` automatically picks up the tests contained in `test_partdiff.py`[^1] and uses `conftest.py` for configuration.
-The test cases are loaded from `test_cases.txt`; `pytest` generates the test cases automatically. The selection of test cases can be modified via the arguments `--num-threads`, `--filter`, `--shuffle`, and `--max-num-tests`.
+`partdiff_tester` is based on [`pytest`](https://docs.pytest.org/en/stable/) which is a testing framework for Python.
+`pytest` automatically picks up all `test*.py` files (here, that's only [`test_partdiff.py`](test_partdiff.py))[^1] and uses [`conftest.py`](conftest.py) for configuration[^2].
+The test cases are auto-generated from the content [`test_cases.txt`](test_cases.txt) via `pytest_generate_tests`[^3]. The selection of test cases can be modified via arguments
+[`--num-threads`](#num-threads), 
+[`--filter`](#filter), 
+[`--shuffle`](#shuffle), and 
+[`--max-num-tests`](#max-num-tests) (see below).
 
 [^1]: See https://docs.python.org/3/library/unittest.html#unittest-test-discovery
+[^2]: See https://docs.pytest.org/en/stable/reference/fixtures.html#conftest-py-sharing-fixtures-across-multiple-files
+[^3]: See https://docs.pytest.org/en/stable/how-to/parametrize.html#pytest-generate-tests
 
 The output of a partdiff executable is simply compared to the output of the known good reference implementation.
-The strictness of this check is configurable via the `--strictness` argument, e.g. with `--strictness=0`, only the matrix is compared, and with `--strictness=4`, the output has to match completely (except for the actual values of runtime and memory consumption).
-If desired, a `valgrind` check can also be performed (see `--valgrind`).
+The strictness of this check is configurable via the [`--strictness`](#strictness) argument, e.g. with `--strictness=0`, only the matrix is compared, and with `--strictness=4`, the output has to match completely (except for the actual values of runtime and memory consumption).
+If desired, a `valgrind` check can also be performed (see [`--valgrind`](#valgrind)).
 
 The directory `reference_output` contains a collection of cached reference outputs.
-If a test case is supposed to test a parameter configuration of which the output isn't cached, the reference implementation can also be used instead (see `--reference-source`).
+If a test case is supposed to test a parameter configuration of which the output isn't cached, the reference implementation can also be used instead (see [`--reference-source`](#reference-source)).
 The content of `reference_output` and `test_cases.txt` is generated with the `make_reference_output.sh` script.
 
 ## Usage
@@ -38,9 +44,15 @@ Example usage:
 $ uv run pytest --executable='/path/to/partdiff'
 ```
 
+> [!TIP]
+> If you want to use `partdiff_tester` in a GitHub workflow, you can easily do that with the GitHub action contained in [`action.yaml`](action.yaml).
+> The input parameters closely reflect the CLI parameters described below.
+> You can find a usage example in the [partdiff repository](https://github.com/parcio/partdiff/blob/main/.github/workflows/correctness_check.yaml).
+>  ```
+
 Of course, you can also install `pytest` and execute it directly.
 
-We can use the [`pytest-xdist` plugin](https://pypi.org/project/pytest-xdist/) to execute the test cases in parallel. It is recommended to do so for all serial implementations, because the parallelism greatly accelerates the tests. To do this, we simply pass the `-n auto` arguments to `pytest` (special care must be taken if you want to use `--shuffle`!)
+We can use the [`pytest-xdist` plugin](https://pypi.org/project/pytest-xdist/) to execute the test cases in parallel. It is recommended to do so for all serial implementations, because the parallelism greatly accelerates the tests. To do this, we simply pass the `-n auto` arguments to `pytest` (special care must be taken if you want to use [`--shuffle`](#shuffle)!)
 
 The following performs a soundness check by essentially testing the reference implementation against itself. 
 
@@ -92,16 +104,18 @@ The custom options are explained below.
 
 > [!NOTE]
 > Some parameters modify the set of test cases. They are applied in this order:
-> 1. `--num-threads`
-> 2. `--filter`
-> 3. `--shuffle`
-> 4. `--max-num-tests`
+> 1. `--num-threads` (may increase number of tests)
+> 2. `--filter` (may decrease number of tests)
+> 3. `--shuffle` (re-orders tests)
+> 4. `--max-num-tests` (may decrease number of tests)
 
 ### `executable`
 
 Path to the partdiff executable.
 
-Use `--executable=/path/to/partdiff` (not `--executable /path/to/partdiff` because pytest's argparser is a bit dumb).
+Use `--executable=/path/to/partdiff` (not `--executable /path/to/partdiff` because pytest's argparser is a bit dumb[^4]).
+
+[^4]: The issue here is that pytest tries to automatically interpret positional arguments as test paths. Here, the partdiff path would be consumed before the `executable` argument is parsed. The `=` sign prevents this.
 
 You can pass a space-separated list to do something like this:
 
@@ -254,7 +268,7 @@ See the code blocks below to get a graphical overview over what is checked exact
 ```
 </details>
 
-## `valgrind`
+### `valgrind`
 
 Start the executable with `valgrind --leak-check=full`.
 
