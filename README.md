@@ -48,7 +48,6 @@ $ uv run pytest --executable='/path/to/partdiff'
 > If you want to use `partdiff_tester` in a GitHub workflow, you can easily do that with the GitHub action contained in [`action.yaml`](action.yaml).
 > The input parameters closely reflect the CLI parameters described below.
 > You can find a usage example in the [partdiff repository](https://github.com/parcio/partdiff/blob/main/.github/workflows/correctness_check.yaml).
->  ```
 
 Of course, you can also install `pytest` and execute it directly.
 
@@ -136,7 +135,7 @@ Use `--strictness` to control which parts of the output are checked:
 | Strictness level | What is checked? |
 |-|-|
 | 0 | Only the matrix |
-| 1 | Matrix and right-hand-side of residuum |
+| 1 (default) | Matrix and right-hand-side of residuum |
 | 2 | Matrix, right-hand-side of {interlines, number of iterations, residuum}, all left-hand-sides |
 | 3 | Matrix, all right-hand-sides (except for calculation time and memory usage), all left-hand-sides |
 | 4 | Full char-by-char diff (except for calculation time and memory usage) |
