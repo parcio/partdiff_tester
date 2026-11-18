@@ -126,6 +126,8 @@ The custom options are explained below.
 > 3. `--shuffle` (re-orders tests)
 > 4. `--max-num-tests` (may decrease number of tests)
 
+---
+
 #### `executable`
 
 Path to the partdiff executable.
@@ -145,6 +147,8 @@ Quoting is supported, so this works:
 ```shell
 $ uv run pytest --executable='"/path/to/your weird/partdiff"'
 ```
+
+---
 
 #### `strictness`
 
@@ -285,17 +289,23 @@ See the code blocks below to get a graphical overview over what is checked exact
 ```
 </details>
 
+---
+
 #### `valgrind`
 
 Start the executable with `valgrind --leak-check=full`.
 
 This takes very long!
 
+---
+
 #### `max-num-tests`
 
 Limit the total number of tests to `n` (default: 0).
 
 If `n=0`, all tests are performed.
+
+---
 
 #### `reference-source`
 
@@ -307,6 +317,8 @@ Control which data source is used to obtain the reference output:
 
 For `impl` and `auto`, `partdiff_tester` will automatically build the reference implementation if necessary.
 For this, `make` and a C compiler are required.
+
+---
 
 #### `num-threads`
 
@@ -332,6 +344,8 @@ Here, `EXECUTABLE` will be started with the parameters `8 1 0 2 2 1000`, but the
 > done
 >  ```
 
+---
+
 #### `filter`
 
 Filter the tests with regex.
@@ -350,9 +364,13 @@ This setting is applied after `num-threads`, so you can filter `num` too.
 
 `--filter` can be passed multiple times.
 
+---
+
 #### `cwd`
 
 Set the working directory of `EXECUTABLE`.
+
+---
 
 #### `shuffle`
 
@@ -365,6 +383,8 @@ You can also pass an explicit seed with `--shuffle=n` for when you want determin
 > ```shell
 > $ uv run pytest -n auto --executable='/path/to/partdiff' --shuffle=$RANDOM
 > ```
+
+---
 
 #### `allow-extra-iterations`
 
@@ -387,6 +407,8 @@ Allowed values for this parameter are:
 
 > [!IMPORTANT]
 > Since `partdiff_tester` probably needs to execute the reference implementation in the described scenario, it is best to always pass `--reference-source=auto` alongside this parameter. Otherwise, the tests will likely fail.
+
+---
 
 #### `timeout`
 
