@@ -4,15 +4,15 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
 
 ## Dependencies
 
-- `uv`\*
+- `uv`[^1]
 - `valgrind` (optional)
 - `make` (optional)
 - a C compiler (optional)
 
-\*: When you don't want to use `uv`, you can install the Python dependencies manually:
-- Python
-- `pytest`
-- `pytest-xdist` (optional)
+[^1]: When you don't want to use `uv`, you can also install the Python dependencies manually:
+      - Python (at least 3.13)
+      - `pytest`
+      - `pytest-xdist` (if you want to run the tests in parallel)
 
 ## How it works
 
