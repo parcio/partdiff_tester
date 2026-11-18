@@ -14,8 +14,8 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
             - `pytest`
             - `pytest-xdist` (if you want to run the tests in parallel)
 
-[^valgrind]: `valgrind` is needed if you want to use the `--valgrind` option.
-[^build_system]: A C compiler and `make` are required if we need to build the reference implementation (see [`--reference-source`](#reference-source)).
+[^valgrind]: `valgrind` is needed if you want to use the `--valgrind` option (see [`valgrind`](#valgrind)).
+[^build_system]: A C compiler and `make` are required if we need to build the reference implementation (see [`reference-source`](#reference-source)).
             
 ## How it works
 
@@ -36,7 +36,7 @@ The strictness of this check is configurable via the [`--strictness`](#strictnes
 If desired, a `valgrind` check can also be performed (see [`--valgrind`](#valgrind)).
 
 The directory `reference_output` contains a collection of cached reference outputs.
-If a test case is supposed to test a parameter configuration of which the output isn't cached, the reference implementation can also be used instead (see [`--reference-source`](#reference-source)).
+If a test case is supposed to test a parameter configuration of which the output isn't cached, the reference implementation can also be used instead (see [`reference-source`](#reference-source)).
 The content of `reference_output` and `test_cases.txt` is generated with the `make_reference_output.sh` script.
 
 ## Usage
@@ -282,7 +282,7 @@ Limit the total number of tests to `n` (default: 0).
 
 If `n=0`, all tests are performed.
 
-### `reference_source`
+### `reference-source`
 
 Control which data source is used to obtain the reference output:
 
