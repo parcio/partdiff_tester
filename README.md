@@ -290,6 +290,9 @@ Control which data source is used to obtain the reference output:
 - `impl` ==> Start partdiff in `reference_implementation` only
 - `auto` ==> Try to read from `reference_output` and fall back to reference impl, if data is not available
 
+For `impl` and `auto`, `partdiff_tester` will automatically build the reference implementation if necessary.
+For this, `make` and a C compiler are required.
+
 ### `num-threads`
 
 Run the tests with `n` threads (default: 1).
