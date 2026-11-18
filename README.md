@@ -4,29 +4,32 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
 
 ## Dependencies
 
-- `uv`[^1]
-- `valgrind` (optional)
-- `make` (optional)
-- a C compiler (optional)
+- `uv`[^py_deps]
+- `valgrind` (optional[^valgrind])
+- `make` (optional[^build_system])
+- a C compiler (optional[^build_system])
 
-[^1]: When you don't want to use `uv`, you can also install the Python dependencies manually:
-      - Python (at least 3.13)
-      - `pytest`
-      - `pytest-xdist` (if you want to run the tests in parallel)
+[^py_deps]: When you don't want to use `uv`, you can also install the Python dependencies manually:
+            - Python (at least 3.13)
+            - `pytest`
+            - `pytest-xdist` (if you want to run the tests in parallel)
 
+[^valgrind]: `valgrind` is needed if you want to use the `--valgrind` option.
+[^build_system]: A C compiler and `make` are required if we need to build the reference implementation (see [`--reference-source`](#reference-source)).
+            
 ## How it works
 
 `partdiff_tester` is based on [`pytest`](https://docs.pytest.org/en/stable/) which is a testing framework for Python.
-`pytest` automatically picks up all `test*.py` files (here, that's only [`test_partdiff.py`](test_partdiff.py))[^1] and uses [`conftest.py`](conftest.py) for configuration[^2].
-The test cases are auto-generated from the content [`test_cases.txt`](test_cases.txt) via `pytest_generate_tests`[^3]. The selection of test cases can be modified via arguments
+`pytest` automatically picks up all `test*.py` files (here, that's only [`test_partdiff.py`](test_partdiff.py))[^test_discovery] and uses [`conftest.py`](conftest.py) for configuration[^conftest].
+The test cases are auto-generated from the content [`test_cases.txt`](test_cases.txt) via `pytest_generate_tests`[^generate_tests]. The selection of test cases can be modified via arguments
 [`--num-threads`](#num-threads), 
 [`--filter`](#filter), 
 [`--shuffle`](#shuffle), and 
 [`--max-num-tests`](#max-num-tests) (see below).
 
-[^1]: See https://docs.python.org/3/library/unittest.html#unittest-test-discovery
-[^2]: See https://docs.pytest.org/en/stable/reference/fixtures.html#conftest-py-sharing-fixtures-across-multiple-files
-[^3]: See https://docs.pytest.org/en/stable/how-to/parametrize.html#pytest-generate-tests
+[^test_discovery]: See https://docs.python.org/3/library/unittest.html#unittest-test-discovery
+[^conftest]: See https://docs.pytest.org/en/stable/reference/fixtures.html#conftest-py-sharing-fixtures-across-multiple-files
+[^generate_tests]: See https://docs.pytest.org/en/stable/how-to/parametrize.html#pytest-generate-tests
 
 The output of a partdiff executable is simply compared to the output of the known good reference implementation.
 The strictness of this check is configurable via the [`--strictness`](#strictness) argument, e.g. with `--strictness=0`, only the matrix is compared, and with `--strictness=4`, the output has to match completely (except for the actual values of runtime and memory consumption).
