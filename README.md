@@ -10,9 +10,9 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
 - a C compiler (optional[^build_system])
 
 [^py_deps]: When you don't want to use `uv`, you can also install the Python dependencies manually:
-            - Python (at least 3.13)
-            - `pytest`
-            - `pytest-xdist` (if you want to run the tests in parallel)
+    - Python (at least 3.13)
+    - `pytest`
+    - `pytest-xdist` (if you want to run the tests in parallel)
 
 [^valgrind]: `valgrind` is needed if you want to use the `--valgrind` option (see [`valgrind`](#valgrind)).
 [^build_system]: A C compiler and `make` are required if we need to build the reference implementation (see [`reference-source`](#reference-source)).
