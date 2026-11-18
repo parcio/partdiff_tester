@@ -13,7 +13,7 @@ This repository contains a testing script for [`partdiff`](https://github.com/pa
 
     - Python (at least 3.13)
     - `pytest`
-    - `pytest-xdist` (if you want to run the tests in parallel)
+    - `pytest-xdist` (if you want to run the tests in parallel; see [Running Tests in Parallel](#running-tests-in-parallel))
 
 [^valgrind]: `valgrind` is needed if you want to use the `--valgrind` option (see [`valgrind`](#valgrind)).
 [^build_system]: A C compiler and `make` are required if we need to build the reference implementation (see [`reference-source`](#reference-source)).
