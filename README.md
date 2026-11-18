@@ -48,15 +48,25 @@ Example usage:
 $ uv run pytest --executable='/path/to/partdiff'
 ```
 
-> [!TIP]
-> If you want to use `partdiff_tester` in a GitHub workflow, you can easily do that with the GitHub action contained in [`action.yaml`](action.yaml).
-> The input parameters closely reflect the CLI parameters described below.
-> You can find a usage example in the [partdiff repository](https://github.com/parcio/partdiff/blob/main/.github/workflows/correctness_check.yaml).
-
 Of course, you can also install `pytest` and execute it directly.
 
-We can use the [`pytest-xdist` plugin](https://pypi.org/project/pytest-xdist/) to execute the test cases in parallel. It is recommended to do so for all serial implementations, because the parallelism greatly accelerates the tests. To do this, we simply pass the `-n auto` arguments to `pytest` (special care must be taken if you want to use [`--shuffle`](#shuffle)!)
+### Running Tests in a GitHub Workflow
 
+Running `partdiff_tester` in a GitHub workflow can be easily achieved through our GitHub action contained in [`action.yaml`](action.yaml).
+The input parameters are similar to the CLI parameters which are described below (See [Parameters](#parameters)).
+You can find a usage example in the [partdiff repository](https://github.com/parcio/partdiff/blob/main/.github/workflows/correctness_check.yaml).
+
+### Running Tests in Parallel
+
+We can use the [`pytest-xdist` plugin](https://pypi.org/project/pytest-xdist/) to execute the test cases in parallel.
+When using `uv`, the plugin is installed automatically.
+It is recommended to do so for all serial implementations, because the parallelism greatly accelerates the tests.
+To do this, we simply pass the `-n auto` arguments to `pytest`.
+Since the runtime of the test cases varies heavily, we can achieve some primitive statistical load balancing by using [`--shuffle`](#shuffle).
+However note that you **must** pass the seed to `--shuffle` (see [`shuffle`](#shuffle)).
+
+### Soundness Check
+  
 The following performs a soundness check by essentially testing the reference implementation against itself. 
 
 ```shell
@@ -68,6 +78,8 @@ $ uv run pytest -n auto --verbose \
 ```
 
 If this fails, the tests are not correct or do not match the reference implementation.
+
+This check is automatically performed in this repository's CI workflow.
 
 ### Parameters
 
